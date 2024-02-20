@@ -3,6 +3,7 @@ package com.example.issproject.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -14,6 +15,7 @@ public class ISSLocationServiceImpl implements ISSLocationService {
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
     @Autowired
+    @Lazy
     public ISSLocationServiceImpl(WebClient.Builder webClientBuilder, ObjectMapper objectMapper) {
         this.webClient = webClientBuilder.baseUrl(url).build();
         this.objectMapper = objectMapper;
