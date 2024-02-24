@@ -58,71 +58,79 @@ public class AsteroidServiceImpl implements AsteroidService{
 
                 List<AsteroidEntity> asteroids = new ArrayList<>(n);
 
-                JsonNode asteroidIds = jsonNode.path("near_earth_objects").path(startDate);
+                LocalDate start = LocalDate.parse(startDate);
+                LocalDate end = LocalDate.parse(endDate);
 
-                for(JsonNode asteroid : asteroidIds){
+                while(!start.isAfter(end)){
 
-                    AsteroidEntity asteroidRequest = new AsteroidEntity();
+                    JsonNode asteroidIds = jsonNode.path("near_earth_objects").path(start.toString());
 
-                    Integer id = asteroid.path("id").asInt();
+                    for(JsonNode asteroid : asteroidIds){
 
-                    String asteroidName = asteroid
-                            .path("name").asText();
+                        AsteroidEntity asteroidRequest = new AsteroidEntity();
 
-                    String absoluteMagnitudeH = asteroid
-                            .path("absolute_magnitude_h").asText();
+                        Integer id = asteroid.path("id").asInt();
 
-                    String estimatedDiameter = asteroid
-                            .path("estimated_diameter")
-                            .path("kilometers")
-                            .path("estimated_diameter_min")
-                            .asText();
+                        String asteroidName = asteroid
+                                .path("name").asText();
 
-                    String hazardous = asteroid
-                            .path("is_potentially_hazardous_asteroid").asText();
+                        String absoluteMagnitudeH = asteroid
+                                .path("absolute_magnitude_h").asText();
 
-                    String closeApproachDate = asteroid
-                            .path("close_approach_data")
-                            .path(0)
-                            .path("close_approach_date").asText();
+                        String estimatedDiameter = asteroid
+                                .path("estimated_diameter")
+                                .path("kilometers")
+                                .path("estimated_diameter_min")
+                                .asText();
 
-                    String speed = asteroid
-                            .path("close_approach_data")
-                            .path(0)
-                            .path("relative_velocity")
-                            .path("kilometers_per_second").asText();
+                        String hazardous = asteroid
+                                .path("is_potentially_hazardous_asteroid").asText();
 
-                    String astroDistance = asteroid
-                            .path("close_approach_data")
-                            .path(0)
-                            .path("miss_distance")
-                            .path("astronomical").asText();
+                        String closeApproachDate = asteroid
+                                .path("close_approach_data")
+                                .path(0)
+                                .path("close_approach_date").asText();
 
-                    String orbitingBody = asteroid
-                            .path("close_approach_data")
-                            .path(0)
-                            .path("orbiting_body").asText();
+                        String speed = asteroid
+                                .path("close_approach_data")
+                                .path(0)
+                                .path("relative_velocity")
+                                .path("kilometers_per_second").asText();
 
-                    String isSentry = asteroid
-                            .path("is_sentry_object").asText();
+                        String astroDistance = asteroid
+                                .path("close_approach_data")
+                                .path(0)
+                                .path("miss_distance")
+                                .path("astronomical").asText();
 
+                        String orbitingBody = asteroid
+                                .path("close_approach_data")
+                                .path(0)
+                                .path("orbiting_body").asText();
 
-                    asteroidRequest.setId(id);
-                    asteroidRequest.setAsteroidName(asteroidName);
-                    asteroidRequest.setAbsoluteMagnitudeH(absoluteMagnitudeH);
-                    asteroidRequest.setEstimatedDiameterKm(estimatedDiameter);
-                    asteroidRequest.setHazardous(hazardous);
-                    asteroidRequest.setCloseApproachDate(closeApproachDate);
-                    asteroidRequest.setKilometersPerSecond(speed);
-                    asteroidRequest.setAstronomicalDistance(astroDistance);
-                    asteroidRequest.setOrbitingBody(orbitingBody);
-                    asteroidRequest.setIsSentryObject(isSentry);
-                    asteroidRequest.setDateCreated(LocalDateTime.now());
+                        String isSentry = asteroid
+                                .path("is_sentry_object").asText();
 
 
-                    asteroids.add(asteroidRequest);
+                        asteroidRequest.setId(id);
+                        asteroidRequest.setAsteroidName(asteroidName);
+                        asteroidRequest.setAbsoluteMagnitudeH(absoluteMagnitudeH);
+                        asteroidRequest.setEstimatedDiameterKm(estimatedDiameter);
+                        asteroidRequest.setHazardous(hazardous);
+                        asteroidRequest.setCloseApproachDate(closeApproachDate);
+                        asteroidRequest.setKilometersPerSecond(speed);
+                        asteroidRequest.setAstronomicalDistance(astroDistance);
+                        asteroidRequest.setOrbitingBody(orbitingBody);
+                        asteroidRequest.setIsSentryObject(isSentry);
+                        asteroidRequest.setDateCreated(LocalDateTime.now());
 
+
+                        asteroids.add(asteroidRequest);
+
+                    }
+                    start = start.plusDays(1);
                 }
+
                 System.out.println(asteroids);
 
 
