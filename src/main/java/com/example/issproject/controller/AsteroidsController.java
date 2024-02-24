@@ -1,15 +1,10 @@
 package com.example.issproject.controller;
 
+import com.example.issproject.entity.AsteroidEntity;
 import com.example.issproject.service.AsteroidService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,6 +26,20 @@ public class AsteroidsController {
 
         return asteroidService.getHazardousAsteroids(startDate, endDate);
 
+    }
+
+    @GetMapping("/allAsteroids")
+    public List<AsteroidEntity> getAllAsteroids(){
+        return asteroidService.getAllAsteroids();
+    }
+
+    @GetMapping("/asteroid/{id}")
+    public AsteroidEntity getAsteroidById(@PathVariable int id){
+        return asteroidService.getById(id);
+    }
+    @GetMapping("/hazardousAsteroid/{hazardous}")
+    public AsteroidEntity getAsteroidByHazardous(@PathVariable String hazardous){
+        return asteroidService.getByHazardous(hazardous);
     }
 
 
