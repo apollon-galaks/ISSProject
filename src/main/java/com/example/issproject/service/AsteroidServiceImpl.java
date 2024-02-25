@@ -178,7 +178,7 @@ public class AsteroidServiceImpl implements AsteroidService{
         String recipientEmail = "recipientEmail";
 
         List<String> recipientEmails = new ArrayList<>();
-        recipientEmails.add("recipientMails");
+        recipientEmails.add("recipientMail");
 
 
 
