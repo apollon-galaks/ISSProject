@@ -38,7 +38,7 @@ public class AsteroidsController {
         return asteroidService.getById(id);
     }
     @GetMapping("/hazardousAsteroid/{hazardous}")
-    public AsteroidEntity getAsteroidByHazardous(@PathVariable String hazardous){
+    public List<AsteroidEntity> getAsteroidByHazardous(@PathVariable String hazardous){
         return asteroidService.getByHazardous(hazardous);
     }
 

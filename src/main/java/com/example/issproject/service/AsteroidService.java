@@ -13,7 +13,7 @@ public interface AsteroidService {
 
     List<AsteroidEntity> getAllAsteroids();
     AsteroidEntity getById(int id);
-    AsteroidEntity getByHazardous(String hazardous);
+    List<AsteroidEntity> getByHazardous(String hazardous);
 
     //List<Map<String, Object>> saveAll(List<Map<String, Object>> asteroids);
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 @NonNullApi
 public interface AsteroidRepository extends JpaRepository<AsteroidEntity, Integer> {
-    public AsteroidEntity findByHazardous(String hazardous);
+    List<AsteroidEntity> findByHazardous(String hazardous);
 
 
 }

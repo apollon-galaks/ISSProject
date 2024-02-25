@@ -2,12 +2,16 @@ package com.example.issproject.service;
 
 import com.example.issproject.entity.AsteroidEntity;
 import com.example.issproject.repository.AsteroidRepository;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -89,7 +93,7 @@ public class AsteroidServiceImpl implements AsteroidService{
                         String closeApproachDate = asteroid
                                 .path("close_approach_data")
                                 .path(0)
-                                .path("close_approach_date").asText();
+                                .path("close_approach_date_full").asText();
 
                         String speed = asteroid
                                 .path("close_approach_data")
@@ -165,13 +169,61 @@ public class AsteroidServiceImpl implements AsteroidService{
     }
 
     @Override
-    public AsteroidEntity getByHazardous(String hazardous) {
-        AsteroidEntity asteroid = null;
-        Optional<AsteroidEntity> optional = Optional.of(asteroidRepository.findByHazardous(hazardous));
-        asteroid = optional.get();
+    public List<AsteroidEntity> getByHazardous(String hazardous) {
 
-        System.out.println(asteroid);
-        return asteroid;
+        String senderEmail = "yourEmail";
+
+        String senderPassword = "yourPassword";
+
+        String recipientEmail = "recipientEmail";
+
+        List<String> recipientEmails = new ArrayList<>();
+        recipientEmails.add("recipientMails");
+
+
+
+
+        List<AsteroidEntity> hazardousAsteroids = asteroidRepository.findByHazardous(hazardous);
+        String messageText = "";
+        for(AsteroidEntity asteroid : hazardousAsteroids){
+            messageText = messageText
+                    + "Asteroid name: " + asteroid.getAsteroidName() + "\n"
+                    + "Asteroid diameter: " + asteroid.getEstimatedDiameterKm() + " km\n"
+                    + "Asteroid speed: " + asteroid.getKilometersPerSecond().substring(0, 4) + " km/sec \n"
+                    + "Closest approach date: " + asteroid.getCloseApproachDate() + "\n \n";
+        }
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderEmail));
+            message.setSubject("New potentially hazardous asteroids prognosis for next days ");
+            message.setText("Asteroid information: \n \n" + messageText + " \n \n" + "Reference: https://api.nasa.gov");
+
+            for(String mails : recipientEmails){
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mails));
+                Transport.send(message);
+            }
+
+            System.out.println("Email sent successfully!");
+        }
+        catch (MessagingException e){
+            e.printStackTrace();
+        }
+
+        return hazardousAsteroids;
     }
 
 }
