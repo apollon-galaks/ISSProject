@@ -1,6 +1,6 @@
 package com.example.issproject.controller;
 
-import com.example.issproject.service.ISSLocationService;
+import com.example.issproject.service.issService.ISSLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

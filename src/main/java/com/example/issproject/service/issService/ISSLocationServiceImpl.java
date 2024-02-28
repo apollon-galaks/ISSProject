@@ -1,4 +1,4 @@
-package com.example.issproject.service;
+package com.example.issproject.service.issService;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

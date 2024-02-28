@@ -1,7 +1,8 @@
-package com.example.issproject.service;
+package com.example.issproject.service.asteroidService;
 
 
 import com.example.issproject.entity.AsteroidEntity;
+import com.example.issproject.entity.EmailLogEntity;
 import com.example.issproject.repository.AsteroidRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 

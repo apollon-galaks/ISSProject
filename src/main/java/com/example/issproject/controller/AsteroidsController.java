@@ -1,7 +1,7 @@
 package com.example.issproject.controller;
 
 import com.example.issproject.entity.AsteroidEntity;
-import com.example.issproject.service.AsteroidService;
+import com.example.issproject.service.asteroidService.AsteroidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

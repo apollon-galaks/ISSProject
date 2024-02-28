@@ -1,4 +1,4 @@
-package com.example.issproject.service;
+package com.example.issproject.service.issService;
 
 
 public interface ISSLocationService {
